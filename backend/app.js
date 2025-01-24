@@ -20,7 +20,7 @@ app.use(express.json());
 //     res.send('Use');
 // });
 
-// app.use(middlewareLogRequest);
+app.use(middlewareLogRequest);
 
 app.use('/user', userRoutes);
 

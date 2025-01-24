@@ -62,20 +62,50 @@ export const createNewUser = async (req, res) => {
     }
 }
 
-const updateUser = (req, res) => {
-    const { id } = req.params;
-    console.log(id);
-    res.json({
-        message: 'user updated'
-    })
+export const updateUser = async (req, res) => {
+    const { name, email, address } = req.body;
+    try {
+        const user = await prisma.user.update({
+            where: {
+                id: Number(req.params.id)
+            },
+            data: {
+                name: name,
+                email: email,
+                address: address,
+            }
+        })
+
+        res.status(200).json({
+            message: 'user updated',
+            data: user
+        })
+    } catch (error) {
+        res.status(500).json({
+            message: error.message,
+            data: null
+        })
+    }
 }
 
-const deleteUser = (req, res) => {
-    const { id } = req.params;
-    console.log(id);
-    res.json({
-        message: 'user deleted'
-    })
+export const deleteUser = async (req, res) => {
+    try {
+        const user = await prisma.user.delete({
+            where: {
+                id: Number(req.params.id)
+            },
+        })
+
+        res.status(200).json({
+            message: 'user deleted',
+            data: user
+        })
+    } catch (error) {
+        res.status(500).json({
+            message: error.message,
+            data: null
+        })
+    }
 }
 
 export default {
